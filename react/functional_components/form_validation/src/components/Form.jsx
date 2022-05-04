@@ -25,7 +25,7 @@ function reducer(state, action) {
     };
 }
 
-export default () => {
+const Form = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     function handleChangeFirstName(e) {
@@ -34,7 +34,7 @@ export default () => {
         if (e.target.value.length < 2) {
             error = "First name must be at least 2 characters."
         }
-        if (e.target.value.trim() == "") {
+        if (e.target.value.trim() === "") {
             error = null;
         }
         dispatch({
@@ -42,7 +42,6 @@ export default () => {
             payload: value,
             error: error
         });
-
     }
 
     function handleChangeLastName(e) {
@@ -51,7 +50,7 @@ export default () => {
         if (e.target.value.length < 2) {
             error = "First name must be at least 2 characters."
         }
-        if (e.target.value.trim() == "") {
+        if (e.target.value.trim() === "") {
             error = null;
         }
         dispatch({
@@ -59,16 +58,15 @@ export default () => {
             payload: value,
             error: error
         });
-
     }
 
     function handleChangeEmail(e) {
         const { name, value } = e.target;
         let error = null;
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value) == false) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value) === false) {
             error = "Invalid email address"
         }
-        if (e.target.value.trim() == "") {
+        if (e.target.value.trim() === "") {
             error = null;
         }
         dispatch({
@@ -76,7 +74,6 @@ export default () => {
             payload: value,
             error: error
         });
-
     }
 
     return (
@@ -124,3 +121,5 @@ export default () => {
         </div>
     )
 }
+
+export default Form;
