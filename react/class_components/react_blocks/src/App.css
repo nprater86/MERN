@@ -1,0 +1,8 @@
+.app {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #dddddd;
+  margin: 25px;
+  padding: 25px;
+  gap: 25px;
+}
