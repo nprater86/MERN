@@ -83,29 +83,27 @@ const BoxForm = props => {
     }
 
     return (
-        <form className={ styles.form } onSubmit={ createBox }>
-            <div>
-                <label>Color: </label>
-                <input type="text" name="backgroundColor" value={state.backgroundColor.value} onChange={ handleBackgroundColor } />
-                {state.backgroundColor.error !== null && (
-                    <p className="error">{state.backgroundColor.error}</p>
-                )}
-            </div>
-            <div>
+        <form className="form-inline" onSubmit={ createBox }>
+            <label className="sr-only" htmlFor="backgroundColor">Color: </label>
+            <input className="form-control" id="backgroundColor" type="text" name="backgroundColor" value={state.backgroundColor.value} onChange={ handleBackgroundColor } />
+            {state.backgroundColor.error !== null && (
+                <p className="error">{state.backgroundColor.error}</p>
+            )}
+            <div className="form-group">
                 <label>Height: </label>
-                <input type="number" name="height" value={state.height.value} onChange={ handleDimension } />
+                <input className="form-control" type="number" name="height" value={state.height.value} onChange={ handleDimension } />
                 {state.height.error !== null && (
                     <p className="error">{state.height.error}</p>
                 )}
             </div>
-            <div>
+            <div className="form-group">
                 <label>Width: </label>
-                <input type="number" name="width" value={state.width.value} onChange={ handleDimension } />
+                <input className="form-control" type="number" name="width" value={state.width.value} onChange={ handleDimension } />
                 {state.width.error !== null && (
                     <p className="error">{state.width.error}</p>
                 )}
             </div>
-            <input type="submit" value="Add" />
+            <input className="btn btn-success mt-2" type="submit" value="Add" />
         </form>
     );
 }
