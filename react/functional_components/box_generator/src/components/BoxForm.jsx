@@ -1,35 +1,109 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import styles from './modules/BoxForm.module.css';
 
+const initialState = {
+    backgroundColor: {
+        value: '',
+        error: null
+    },
+    height: {
+        value: '',
+        error: null
+    },
+    width: {
+        value: '',
+        error: null
+    }
+}
+
+function reducer(state, action) {
+    return {
+        ...state,
+        [action.type]: {
+            value: action.payload,
+            error: action.error
+        }
+    };
+}
+
 const BoxForm = props => {
-    const [backgroundColor, setBackgroundColor] = useState("");
-    const [height, setHeight] = useState(50);
-    const [width, setWidth] = useState(50);
+    const [state,dispatch] = useReducer(reducer,initialState);
+
+    const handleBackgroundColor = e => {
+        const {name,value} = e.target;
+        let error = null;
+        if (value.length < 3){
+            error = "Background Color must be at least 3 characters.";
+        }
+        dispatch({
+            type: name,
+            payload: value,
+            error: error,
+        })
+    }
+
+    const handleDimension = e => {
+        const {name,value} = e.target;
+        let error = null;
+        if (value === '0'){
+            error = "Dimensions must be greater than 0."
+        }
+        dispatch({
+            type: name,
+            payload: value,
+            error: error
+        })
+    }
 
     const createBox = e => {
         e.preventDefault();
-        const box = { 
-            backgroundColor: `${backgroundColor}`,
-            height: `${height}px`,
-            width: `${width}px`
-        };
-        props.onNewBox( box );
-        e.target.reset();
+        if(state.backgroundColor.error === null && state.height.error === null && state.width.error === null){
+            const box = {
+                backgroundColor: state.backgroundColor.value,
+                height: `${state.height.value}px`,
+                width: `${state.width.value}px`
+            };
+            props.onNewBox(box);
+            dispatch({
+                type: 'backgroundColor',
+                payload: '',
+                error: null
+            })
+            dispatch({
+                type: 'height',
+                payload: '',
+                error: null
+            })
+            dispatch({
+                type: 'width',
+                payload: '',
+                error: null
+            })
+        }
     }
 
     return (
         <form className={ styles.form } onSubmit={ createBox }>
             <div>
                 <label>Color: </label>
-                <input type="text" onChange={ e => setBackgroundColor(e.target.value) } />
+                <input type="text" name="backgroundColor" value={state.backgroundColor.value} onChange={ handleBackgroundColor } />
+                {state.backgroundColor.error !== null && (
+                    <p className="error">{state.backgroundColor.error}</p>
+                )}
             </div>
             <div>
                 <label>Height: </label>
-                <input type="number" onChange={ e => setHeight(e.target.value) } />
+                <input type="number" name="height" value={state.height.value} onChange={ handleDimension } />
+                {state.height.error !== null && (
+                    <p className="error">{state.height.error}</p>
+                )}
             </div>
             <div>
                 <label>Width: </label>
-                <input type="number" onChange={ e => setWidth(e.target.value) } />
+                <input type="number" name="width" value={state.width.value} onChange={ handleDimension } />
+                {state.width.error !== null && (
+                    <p className="error">{state.width.error}</p>
+                )}
             </div>
             <input type="submit" value="Add" />
         </form>
