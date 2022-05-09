@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import axios from 'axios';
+
 
 const FetchPokemon = props => {
-    const [pokeNames, setPokeNames] = useState([]);
+    function requestPokemon() {
 
-    async function requestPokemon() {
-        setPokeNames([]);
-
-        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=807`)
-            .then(response => response.json())
-            .then(response => {
-                props.onFetchRequest(response.results);
-            })
-        }
+    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=807`)
+        .then(response => {
+            props.onFetchRequest(response.data.results);
+        })
+    }
 
     return (
         <div>
