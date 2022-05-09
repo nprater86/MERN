@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-import styles from './modules/BoxForm.module.css';
 
 const initialState = {
     backgroundColor: {
