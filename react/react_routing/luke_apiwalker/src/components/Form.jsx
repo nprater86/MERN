@@ -24,12 +24,9 @@ const Form = props => {
         }
 
         if(!selectionError && !idError){
-            if(selection === "people"){
-                history.push(`/people/${id}`);
-            } else if (selection === "planets"){
-                history.push(`/planets/${id}`);
-            }
+            history.push(`/${selection}/${id}`);
         }
+
     }
 
     return (
@@ -43,6 +40,9 @@ const Form = props => {
                                 <option value="">Choose...</option>
                                 <option value="planets">Planets</option>
                                 <option value="people">People</option>
+                                <option value="starships">Starships</option>
+                                <option value="vehicles">Vehicles</option>
+                                <option value="species">Species</option>
                             </select>
                         </div>
                     </div>
