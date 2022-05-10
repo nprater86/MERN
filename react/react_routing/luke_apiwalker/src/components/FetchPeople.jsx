@@ -12,6 +12,9 @@ const FetchPeople = props => {
     const history = useHistory();
 
     useEffect(() => {
+        setPersonData({});
+        setHomeworldData({});
+        setSpeciesData({});
         axios.get(`https://swapi.dev/api/people/${id}`)
             .then(res => {
                 setError(false);
@@ -22,20 +25,25 @@ const FetchPeople = props => {
                         setHomeworldData(res.data);
                     })
                     .catch(err=>{
+                        console.log("Planet error!");
                         console.log(err);
                         setError(true);
                     })
-                axios.get(res.data.species)
-                    .then(res => {
-                        setError(false);
-                        setSpeciesData(res.data);
-                    })
-                    .catch(err=>{
-                        console.log(err);
-                        setError(true);
-                    })
+                if(res.data.species.length > 0) {
+                    axios.get(res.data.species)
+                        .then(res => {
+                            setError(false);
+                            setSpeciesData(res.data);
+                        })
+                        .catch(err=>{
+                            console.log("Species error!");
+                            console.log(err);
+                            setError(true);
+                        })
+                }
             })
             .catch(err=>{
+                console.log("Person error!");
                 console.log(err);
                 setError(true);
             })
@@ -57,7 +65,11 @@ const FetchPeople = props => {
                     <h1 className="mt-5">{ personData.name }</h1>
                     <h3 className="mt-5">Homeworld: <a href="#" onClick={ (e)  => handleLink(e, homeworldData) } style={{fontWeight: 'normal'}}>{ homeworldData.name }</a></h3>
                     <h3 className="mt-3">Birth Year: <span style={{fontWeight: 'normal'}}>{ personData.birth_year }</span></h3>
-                    <h3 className="mt-3">Species: <a href="#" onClick={ (e)  => handleLink(e, speciesData) } style={{fontWeight: 'normal'}}>{ speciesData.name }</a></h3>
+                    {
+                        speciesData.name ?
+                        <h3 className="mt-3">Species: <a href="#" onClick={ (e)  => handleLink(e, speciesData) } style={{fontWeight: 'normal'}}>{ speciesData.name }</a></h3> :
+                        <h3 className="mt-3">Species: <span style={{fontWeight: 'normal'}}>Human</span></h3>
+                    }
                     <h3 className="mt-3">Height: <span style={{fontWeight: 'normal'}}>{ personData.height }</span></h3>
                     <h3 className="mt-3">Mass: <span style={{fontWeight: 'normal'}}>{ personData.mass }</span></h3>
                     <h3 className="mt-3">Hair Color: <span style={{fontWeight: 'normal'}}>{ personData.hair_color }</span></h3>
