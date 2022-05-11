@@ -31,7 +31,9 @@ const TaskForm = props => {
 
     function onSubmitHandler(e){
         e.preventDefault();
+
         let newTask = state.task;
+
         if(newTask.length === 0){
             return;
         }

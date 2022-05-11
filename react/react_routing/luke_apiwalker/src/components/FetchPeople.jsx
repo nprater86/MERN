@@ -11,42 +11,33 @@ const FetchPeople = props => {
     const [error, setError] = useState(false);
     const history = useHistory();
 
-    useEffect(() => {
+    useEffect(async () => {
         setPersonData({});
         setHomeworldData({});
         setSpeciesData({});
-        axios.get(`https://swapi.dev/api/people/${id}`)
-            .then(res => {
-                setError(false);
-                setPersonData(res.data);
-                axios.get(res.data.homeworld)
-                    .then(res => {
-                        setError(false);
-                        setHomeworldData(res.data);
-                    })
-                    .catch(err=>{
-                        console.log("Planet error!");
-                        console.log(err);
-                        setError(true);
-                    })
-                if(res.data.species.length > 0) {
-                    axios.get(res.data.species)
-                        .then(res => {
-                            setError(false);
-                            setSpeciesData(res.data);
-                        })
-                        .catch(err=>{
-                            console.log("Species error!");
-                            console.log(err);
-                            setError(true);
-                        })
-                }
-            })
+        let personResponse = await axios.get(`https://swapi.dev/api/people/${id}`)
             .catch(err=>{
                 console.log("Person error!");
                 console.log(err);
                 setError(true);
-            })
+            });
+        setPersonData(personResponse.data);
+        let homeworldResponse = await axios.get(personResponse.data.homeworld)
+            .catch(err=>{
+                console.log("Planet error!");
+                console.log(err);
+                setError(true);
+            });
+        setHomeworldData(homeworldResponse.data);
+        if(personResponse.data.species.length > 0) {
+            let speciesData = await axios.get(personResponse.data.species)
+                .catch(err=>{
+                    console.log("Species error!");
+                    console.log(err);
+                    setError(true);
+                });
+            setSpeciesData(speciesData.data);
+        }
     },[id]);
 
     function handleLink(e, data){
