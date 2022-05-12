@@ -14,16 +14,24 @@ const Main = props => {
                 setLoaded(true);
             })
             .catch(err => console.error(err));
-    },[products]);
+    },[]);
+
+    const addToDom = product => {
+        setProducts(products => [...products, product])
+    }
+
+    const removeFromDom = productId => {
+        setProducts(products.filter(product => product._id != productId));
+    }
 
     return (
         <div className="container d-flex flex-column">
             <div className="row mb-5 d-flex justify-content-center">
                 <h1 className="text-center">Product Manager</h1>
-                <ProductForm />
+                <ProductForm addToDom={ addToDom }/>
             </div>
             <div className="row mb-5 d-flex justify-content-center">
-                { loaded && <ProductList products={ products }/> }
+                { loaded && <ProductList products={ products } removeFromDom={ removeFromDom } /> }
             </div>
         </div>
     );

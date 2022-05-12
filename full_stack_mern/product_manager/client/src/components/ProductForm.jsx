@@ -16,6 +16,7 @@ const ProductForm = props => {
         })
             .then(res => {
                 console.log(res);
+                props.addToDom(res.data.product);
                 setTitle("");
                 setPrice("");
                 setDescription("");
