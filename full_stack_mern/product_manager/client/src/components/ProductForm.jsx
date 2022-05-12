@@ -25,9 +25,9 @@ const ProductForm = props => {
     }
 
     return (
-        <div className="col-12 p-5 rounded" style={{backgroundColor: "lightblue"}}>
+        <div className="w-50 p-5 rounded text-center" style={{backgroundColor: "lightblue"}}>
             <h1>Product Manager</h1>
-            <form className="mt-3" onSubmit={ e => onSubmitHandler(e) }>
+            <form className="mt-3 text-start" onSubmit={ e => onSubmitHandler(e) }>
                 <div className="mb-3">
                     <label className="form-label">Title</label>
                     <input type="text" className="form-control" placeholder="Title" onChange={ e => setTitle(e.target.value) } value={ title }/>
@@ -43,7 +43,9 @@ const ProductForm = props => {
                     <label className="form-label">Description</label>
                     <textarea className="form-control" placeholder="Description" onChange={ e => setDescription(e.target.value) } value={ description } rows="5"></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">Create</button>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-primary">Create</button>
+                </div>
             </form>
         </div>
     );
