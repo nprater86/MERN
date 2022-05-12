@@ -19,6 +19,7 @@ const Main = props => {
     return (
         <div className="container d-flex flex-column">
             <div className="row mb-5 d-flex justify-content-center">
+                <h1 className="text-center">Product Manager</h1>
                 <ProductForm />
             </div>
             <div className="row mb-5 d-flex justify-content-center">

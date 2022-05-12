@@ -26,7 +26,7 @@ const ProductForm = props => {
 
     return (
         <div className="w-50 p-5 rounded text-center" style={{backgroundColor: "lightblue"}}>
-            <h1>Product Manager</h1>
+            <h2>New Product:</h2>
             <form className="mt-3 text-start" onSubmit={ e => onSubmitHandler(e) }>
                 <div className="mb-3">
                     <label className="form-label">Title</label>
