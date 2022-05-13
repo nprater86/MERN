@@ -5,7 +5,7 @@ const Product = require("../models/product.model");
 module.exports.createNewProduct = (req, res) => {
 Product.create(req.body)
     .then(newlyCreatedProduct => res.json({ product: newlyCreatedProduct }))
-    .catch(err => res.json({ message: "Something went wrong", error: err }));
+    .catch(err => res.status(400).json(err));
 };
 
 module.exports.getAllProducts = (req, res) => {
@@ -27,7 +27,7 @@ module.exports.deleteAnExistingProduct = (req, res) => {
 }
 
 module.exports.updateProduct = (req, res) => {
-    Product.findOneAndUpdate({_id: req.params.id}, req.body, {new:true})
+    Product.findOneAndUpdate({_id: req.params.id}, req.body, {new:true, runValidators:true})
         .then(updatedProduct => res.json(updatedProduct))
-        .catch(err => response.json(err));
+        .catch(err => res.status(401).json(err));
 }
