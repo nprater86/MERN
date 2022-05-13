@@ -1,20 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Delete from './Delete';
 
 const ProductList = props => {
     const { removeFromDom } = props;
-
-    function handleDelete(e, id) {
-        e.preventDefault();
-
-        axios.delete("http://localhost:8000/api/products/delete/" + id)
-            .then(res => {
-                console.log(res);
-                removeFromDom(id);
-            })
-            .catch(err => console.error(err));
-    }
 
     return (
         <div className="w-50 text-center">
@@ -34,7 +24,7 @@ const ProductList = props => {
                                     <nav className="nav">
                                         <Link className="nav-link" to={ "/products/" + product._id }>View</Link>
                                         <Link className="nav-link" to={ "/products/" + product._id + "/edit"}>Edit</Link>
-                                        <a className="nav-link" href="#" onClick={ e => handleDelete(e, product._id) }>Delete</a>
+                                        <Delete  id={ product._id } successCallback={ () =>  removeFromDom(product._id) } />
                                     </nav>
                                 </td>
                             </tr>

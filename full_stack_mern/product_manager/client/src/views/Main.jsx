@@ -16,8 +16,14 @@ const Main = props => {
             .catch(err => console.error(err));
     },[]);
 
-    const addToDom = product => {
-        setProducts(products => [...products, product])
+    const createProduct = product => {
+        console.log(product);
+        axios.post('http://localhost:8000/api/products/new', product)
+            .then(res => {
+                console.log(res);
+                setProducts(products => [...products, res.data.product]);
+            })
+            .catch(err => console.log(err))
     }
 
     const removeFromDom = productId => {
@@ -27,8 +33,11 @@ const Main = props => {
     return (
         <div className="container d-flex flex-column">
             <div className="row mb-5 d-flex justify-content-center">
-                <h1 className="text-center">Product Manager</h1>
-                <ProductForm addToDom={ addToDom }/>
+            <h1 className="text-center">Product Manager</h1>
+                <div className="w-50 p-4 rounded text-center" style={{backgroundColor: "lightblue"}}>
+                    <h3 className="text-center">Create Product</h3>
+                    <ProductForm onSubmitProp={ createProduct } initialTitle="" initialPrice="" initialDescription="" />
+                </div>
             </div>
             <div className="row mb-5 d-flex justify-content-center">
                 { loaded && <ProductList products={ products } removeFromDom={ removeFromDom } /> }

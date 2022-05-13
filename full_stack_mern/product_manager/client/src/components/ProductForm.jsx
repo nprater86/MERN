@@ -2,32 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const ProductForm = props => {
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState("");
+    const { initialTitle, initialPrice, initialDescription } = props;
+    const [title, setTitle] = useState(initialTitle);
+    const [price, setPrice] = useState(initialPrice);
+    const [description, setDescription] = useState(initialDescription);
 
     function onSubmitHandler(e) {
         e.preventDefault();
 
-        axios.post('http://localhost:8000/api/products/new', {
+        props.onSubmitProp({
             title,
             price,
             description
-        })
-            .then(res => {
-                console.log(res);
-                props.addToDom(res.data.product);
-                setTitle("");
-                setPrice("");
-                setDescription("");
-            })
-            .catch(err => console.log(err))
+        });
 
+        setTitle("");
+        setPrice("");
+        setDescription("");
     }
 
     return (
-        <div className="w-50 p-5 rounded text-center" style={{backgroundColor: "lightblue"}}>
-            <h2>New Product:</h2>
+        <div>
             <form className="mt-3 text-start" onSubmit={ e => onSubmitHandler(e) }>
                 <div className="mb-3">
                     <label className="form-label">Title</label>
@@ -45,7 +40,7 @@ const ProductForm = props => {
                     <textarea className="form-control" placeholder="Description" onChange={ e => setDescription(e.target.value) } value={ description } rows="5"></textarea>
                 </div>
                 <div className="text-center">
-                    <button type="submit" className="btn btn-primary">Create</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
