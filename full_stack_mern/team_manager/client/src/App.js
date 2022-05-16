@@ -50,7 +50,6 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Redirect from="/" to="/players/list" />
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
           <div className="container">
               <ul className="navbar-nav">
@@ -71,6 +70,7 @@ function App() {
             <Route path="/status">
               {loaded && <Status players={ players } updatePlayerStatus={ updatePlayerStatus } />}
             </Route>
+            <Redirect to="/players/list" />
           </Switch>
         </div>
       </BrowserRouter>
