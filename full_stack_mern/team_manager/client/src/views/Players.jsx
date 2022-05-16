@@ -18,7 +18,7 @@ const Players = props => {
                     <PlayerList players={ players } removeFromDom={ removeFromDom } />
                 </Route>
                 <Route path="/players/addplayer">
-                    <PlayerForm initialName={""} initialPreferredPosition={""} onSubmitProp={ createPlayer } />
+                    <PlayerForm initialName={""} initialPreferredPosition={""} nameError={ props.nameError } onSubmitProp={ createPlayer } />
                 </Route>
             </Switch>
         </div>

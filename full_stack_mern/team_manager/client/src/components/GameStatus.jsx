@@ -8,9 +8,7 @@ const GameStatus = props => {
     const { gameId } = useParams();
 
     function handleStatusChange(id, playerStatus){
-        let statusChange = "status.game" + gameId;
-
-        axios.put('http://localhost:8000/api/players/update/' + id, {"$set": { [statusChange] : playerStatus } })
+        axios.put('http://localhost:8000/api/players/update/' + id, { "$set": { ["status.game" + gameId] : playerStatus } })
             .then(res => {
                 updatePlayerStatus(id, gameId, playerStatus);
             })

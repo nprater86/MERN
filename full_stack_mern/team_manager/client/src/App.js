@@ -4,16 +4,17 @@ import axios from 'axios';
 import { 
   BrowserRouter,
   Route,
-  Link,
   Switch,
   Redirect
 } from 'react-router-dom';
+import NavBar from './views/NavBar';
 import Players from './views/Players';
 import Status from './views/Status';
 
 function App() {
   const [players, setPlayers] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [nameError, setNameError] = useState("");
 
   useEffect(()=>{
       axios.get("http://localhost:8000/api/players/")
@@ -28,8 +29,12 @@ function App() {
     axios.post("http://localhost:8000/api/players/new", player)
         .then(res => {
             setPlayers(players => [...players, res.data.player])
+            setNameError("");
         })
-        .catch(err => console.error(err.config.data));
+        .catch(err => {
+          console.error(err);
+          setNameError(err.response.data.errors.name.message);
+        });
   }
 
   function removeFromDom(id) {
@@ -48,24 +53,13 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
-          <div className="container">
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/players/list">Manage Players</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/status/game/1">Manage Player Status</Link>
-                </li>
-              </ul>
-          </div>
-        </nav>
+    <BrowserRouter>
+      <div className="App">
+        <NavBar />
         <div className="container">
           <Switch>
             <Route path="/players">
-              {loaded && <Players players={ players } createPlayer={ createPlayer } removeFromDom={ removeFromDom }/>}
+              {loaded && <Players players={ players } createPlayer={ createPlayer } nameError={ nameError } removeFromDom={ removeFromDom }/>}
             </Route>
             <Route path="/status">
               {loaded && <Status players={ players } updatePlayerStatus={ updatePlayerStatus } />}
@@ -73,8 +67,8 @@ function App() {
             <Redirect to="/players/list" />
           </Switch>
         </div>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 

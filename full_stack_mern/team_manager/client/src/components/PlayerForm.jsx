@@ -3,10 +3,9 @@ import { Card } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 const PlayerForm = props => {
-    const { initialName, initialPreferredPosition, onSubmitProp } = props;
+    const { initialName, initialPreferredPosition, onSubmitProp, nameError } = props;
     const [name, setName] = useState(initialName);
     const [isValid, setIsValid] = useState(false);
-    const [error, setError] = useState("");
     const [preferredPosition, setPreferredPosition] = useState(initialPreferredPosition);
     const history = useHistory();
 
@@ -21,7 +20,6 @@ const PlayerForm = props => {
     function onSubmitHandler(e){
         e.preventDefault(e);
 
-        setError("");
         onSubmitProp({
             name,
             preferredPosition,
@@ -32,18 +30,23 @@ const PlayerForm = props => {
             }
         });
 
-        history.push("/players/list");
+        if (isValid === true) {
+            history.push("/players/list");
+        }
     }
 
     return (
         <div>
             <Card className="p-4 w-50">
                 <form onSubmit={ e => onSubmitHandler(e) }>
-                    <div className="row mb-2">
+                    <div className="row">
                         <label className="col-5">Player Name:</label>
                         <div className="col-auto">
                             <input type="text" onChange={ e => setName(e.target.value) } value={ name } />
                         </div>
+                    </div>
+                    <div className="row mb-3">
+                        <p style={{ color: 'red', fontWeight: 'bold'}}>{ nameError }</p>
                     </div>
                     <div className="row mb-3">
                         <label className="col-5">Preferred Position:</label>
