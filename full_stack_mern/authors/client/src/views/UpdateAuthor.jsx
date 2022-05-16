@@ -4,11 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import AuthorForm from '../components/AuthorForm';
 import HomeLink from '../components/HomeLink';
+import ErrorPage from './ErrorPage';
 
 const UpdateAuthor = props => {
     const { id } = useParams();
     const [author, setAuthor] = useState("");
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false);
+    const [loadErr, setLoadErr] = useState(true);
     const [error, setError] = useState({
         name:""
     });
@@ -19,10 +21,10 @@ const UpdateAuthor = props => {
             .then(res =>{
                 setAuthor(res.data.author.name);
                 setLoaded(true);
+                setLoadErr(false);
             })
             .catch(err => {
                 console.error(err)
-                history.push("/error")
             });
     },[])
 
@@ -49,8 +51,13 @@ const UpdateAuthor = props => {
     return (
         <div>
             <HomeLink />
-            <h5 className="mt-2">Update author:</h5> 
-            {loaded && <AuthorForm onSubmitProp={ updateAuthor } error={error} initialName={ author } />}
+            {loaded && !loadErr && (
+            <div>
+                <h5 className="mt-2">Update author:</h5>
+                <AuthorForm onSubmitProp={ updateAuthor } error={error} initialName={ author } />
+            </div>
+            )}
+            {loadErr && <ErrorPage />}
         </div>
     );
 }

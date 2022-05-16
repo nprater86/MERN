@@ -22,9 +22,6 @@ function App() {
           <Route exact path="/edit/:id">
             <UpdateAuthor />
           </Route>
-          <Route exact path="/error">
-            <ErrorPage />
-          </Route>
         </BrowserRouter>
     </div>
   );
